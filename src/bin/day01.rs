@@ -73,6 +73,6 @@ fn main() {
 
     // End
     let current_datetime = Utc::now();
-    println!("Current date and time (UTC): {}", current_datetime.format("%Y-%m-%d %H:%M:%S"));
+    println!("End.  Current date and time (UTC): {}", current_datetime.format("%Y-%m-%d %H:%M:%S"));
 
 }
