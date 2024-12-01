@@ -6,8 +6,8 @@ fn main() {
     println!("--- Day 1: Historian Hysteria ---");
 
     // Reading buffered file contents into a string line by line
-    let filename = "./input/day01.txt";
-    //let filename = "./test_input/day01-test.txt";
+    //let filename = "./input/day01.txt";
+    let filename = "./test_input/day01-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -24,26 +24,49 @@ fn main() {
     // Check input was correctly read in.  Look for first and last values!
     // dbg!(&input);
 
-    let mut xs : Vec<i64> = Vec::new();
-    let mut ys : Vec<i64> = Vec::new();
+    let mut xs : Vec<i32> = Vec::new();
+    let mut ys : Vec<i32> = Vec::new();
     for line in input.lines() {
         let mut iter = line.split_whitespace();
-        xs.push(iter.next().unwrap().parse::<i64>().unwrap());
-        ys.push(iter.next().unwrap().parse::<i64>().unwrap());
+        xs.push(iter.next().unwrap().parse::<i32>().unwrap());
+        ys.push(iter.next().unwrap().parse::<i32>().unwrap());
         //dbg!(&xs, &ys);
     }
 
     // dbg!(&xs);
     // dbg!(&ys);
 
+    // Part 1
+
     xs.sort();
     ys.sort();
-    let zs = xs.iter().zip(ys).collect::<Vec<_>>();
+    let zs = xs.iter().zip(&ys).collect::<Vec<_>>();
     // dbg!(&zs);
-    let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i64>>();
+    let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i32>>();
     // dbg!(&ds);
-    let sum = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i64>();
+    // Note to self:  watch out for the silent integer overflow.
+    let sum = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i32>();
 
     println!("Day 01 Part 1 answer: {sum}");  // 1941353
 
+
+    // Part 2
+    // for every number in the xs count how many times it appears in ys
+    // multiply the two numbers together and sum the results of each calculation
+
+    // Create a vector of how many times each value in xs appears in ys
+    dbg!(ys.iter().filter(|&y| *y == 3 ).count());
+
+    let v = vec![91, 55, 77, 91];
+    println!("count 91: {}", v.iter().filter(|&n| *n == 91).count());
+
+    let rs = xs
+        .iter()
+        .map(|x| {
+            ys.iter().filter(|&y| *y == *x ).count() as i32
+        })
+        .collect::<Vec<i32>>();
+    dbg!(&rs);
+
+    println!("Day 01 Part 2 answer: {sum}");  // 1941353
 }
