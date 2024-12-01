@@ -24,12 +24,12 @@ fn main() {
     // Check input was correctly read in.  Look for first and last values!
     // dbg!(&input);
 
-    let mut xs : Vec<i32> = Vec::new();
-    let mut ys : Vec<i32> = Vec::new();
+    let mut xs : Vec<i64> = Vec::new();
+    let mut ys : Vec<i64> = Vec::new();
     for line in input.lines() {
         let mut iter = line.split_whitespace();
-        xs.push(iter.next().unwrap().parse::<i32>().unwrap());
-        ys.push(iter.next().unwrap().parse::<i32>().unwrap());
+        xs.push(iter.next().unwrap().parse::<i64>().unwrap());
+        ys.push(iter.next().unwrap().parse::<i64>().unwrap());
         //dbg!(&xs, &ys);
     }
 
@@ -40,10 +40,10 @@ fn main() {
     ys.sort();
     let zs = xs.iter().zip(ys).collect::<Vec<_>>();
     // dbg!(&zs);
-    let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i32>>();
+    let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i64>>();
     // dbg!(&ds);
-    let sum = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i32>();
+    let sum = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i64>();
 
-    println!("Day 01 answer {sum}");
+    println!("Day 01 Part 1 answer: {sum}");  // 1941353
 
 }
