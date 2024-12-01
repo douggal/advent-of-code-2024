@@ -9,6 +9,7 @@ pub fn read_contents_buffered(path: &str) -> Result<String, Error> {
 
     for maybe_line in buffer.lines() {
         file_txt.push_str(maybe_line?.as_str());
+        file_txt.push('\n');   // Add newline !!!
     }
 
     Ok(file_txt)
