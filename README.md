@@ -37,6 +37,9 @@ TBD
 - [Project structure suggestions from Reddit](https://www.reddit.com/r/adventofcode/comments/zikosa/how_to_organize_rust_code_for_advent_of_code/)
 
 ```text
-Runtime ...
+What is the total distance between your lists?
+Day 01 Part 1 answer: 1941353
+What is their similarity score?
+Day 01 Part 2 answer: 22539317
 ```
 

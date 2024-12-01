@@ -1,18 +1,19 @@
 use advent_of_code_2024::read_contents_buffered;
+use chrono::Utc;
 
 fn main() {
 
-    println!("Advent of Code 2024");
-    println!("--- Day 1: Historian Hysteria ---");
+    println!("--- Advent of Code 2024 ---");
+    println!("--- Day 1: Historian Hysteria ---\n");
 
     // Reading buffered file contents into a string line by line
-    //let filename = "./input/day01.txt";
-    let filename = "./test_input/day01-test.txt";
+    let filename = "./input/day01.txt";
+    //let filename = "./test_input/day01-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
         Ok(file_contents) => {
-            println!("Read input file contents successfully!\n\n {}", file_contents);
+            println!("Read input file contents successfully!\n\n");
             file_contents
         },
         Err(err) => {
@@ -42,31 +43,36 @@ fn main() {
     ys.sort();
     let zs = xs.iter().zip(&ys).collect::<Vec<_>>();
     // dbg!(&zs);
-    let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i32>>();
+    // let ds = zs.iter().map(|&z| (z.0 - z.1).abs()).collect::<Vec<i32>>();
     // dbg!(&ds);
     // Note to self:  watch out for the silent integer overflow.
-    let sum = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i32>();
+    let answer_p1 = zs.iter().map(|&z| (z.0 - z.1).abs()).sum::<i32>();
 
-    println!("Day 01 Part 1 answer: {sum}");  // 1941353
+    println!("What is the total distance between your lists?");
+    println!("Day 01 Part 1 answer: {answer_p1}");  // 1941353
 
 
     // Part 2
     // for every number in the xs count how many times it appears in ys
-    // multiply the two numbers together and sum the results of each calculation
+    // then multiply the two numbers together and collect the sum the results of each calculation
 
-    // Create a vector of how many times each value in xs appears in ys
-    dbg!(ys.iter().filter(|&y| *y == 3 ).count());
-
-    let v = vec![91, 55, 77, 91];
-    println!("count 91: {}", v.iter().filter(|&n| *n == 91).count());
-
+    // Create a vector of results of counting how many times each value in xs appears in ys
     let rs = xs
         .iter()
         .map(|x| {
             ys.iter().filter(|&y| *y == *x ).count() as i32
         })
         .collect::<Vec<i32>>();
-    dbg!(&rs);
+    // dbg!(&rs);
 
-    println!("Day 01 Part 2 answer: {sum}");  // 1941353
+    // answer to Part 2 is sum of the product of each value in xs by its corresponding value in rs
+    let answer_p2 = xs.iter().zip(rs).map(|xr| xr.0 * xr.1).sum::<i32>();
+
+    println!("What is their similarity score?");
+    println!("Day 01 Part 2 answer: {answer_p2}");  // 22539317
+
+    // End
+    let current_datetime = Utc::now();
+    println!("Current date and time (UTC): {}", current_datetime.format("%Y-%m-%d %H:%M:%S"));
+
 }
