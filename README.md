@@ -11,7 +11,7 @@ cargo run --package advent-of-code-2024 --bin day01
 ```
 
 1. --- Day 1: Historian Hysteria ---
-2. Day  2:  
+2. --- Day 2: Red-Nosed Reports --- 
 3. Day  3:  
 4. Day  4:  
 5. Day  5:  
@@ -45,3 +45,4 @@ Day 01 Part 2 answer: 22539317
 End.  Current date and time (UTC): 2024-12-01 18:02:49
 ```
 
+#### Day 12
