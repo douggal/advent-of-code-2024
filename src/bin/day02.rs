@@ -11,8 +11,8 @@ fn main() {
     println!("---- Day 2: Red-Nosed Reports ---\n");
 
     // Reading buffered file contents into a string line by line
-    let filename = "./input/day02.txt";
-    //let filename = "./test_input/day02-test.txt";
+    //let filename = "./input/day02.txt";
+    let filename = "./test_input/day02-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -33,7 +33,9 @@ fn main() {
     let mut safes = Vec::<i32>::new();
     for line in input.lines() {
         let iter = line.split_whitespace();
-        let xs = iter.map(|x| x.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        let xs = iter
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>();
         //dbg!(&xs);
 
         // usinga sliding window of size 2, find difference between each pair of numbers
@@ -74,6 +76,26 @@ fn main() {
 
     // Part 2
 
+    // same as Part 1, but I'm allowed to drop 1 bad level from each report
+    let mut safes_p2 = Vec::<i32>::new();
+    for line in input.lines() {
+        let iter = line.split_whitespace();
+        let xs = iter
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>();
+        //dbg!(&xs);
+
+        let diffs = xs
+            .windows(2)
+            .map(|xs| { xs[1] - xs[0] })
+            .collect::<Vec<i32>>();
+
+        dbg!(&diffs);
+
+
+
+
+    }
 
     let answer_p2 = 0;
     println!("Day 02 Part 2. How many reports are now safe? {answer_p2}");
