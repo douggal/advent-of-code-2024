@@ -1,7 +1,7 @@
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
 
-// Advent of Code 2024
+// Advent of Code 2024 Day 2
 // 2 Dec 2024
 // https://adventofcode.com/2024
 
@@ -27,20 +27,56 @@ fn main() {
     };
 
     // Check input was correctly read in.  Look for first and last values!
-    dbg!(&input);
+    // dbg!(&input);
 
     // Part 1
+    let mut safes = Vec::<i32>::new();
     for line in input.lines() {
-        let mut iter = line.split_whitespace();
-        let xs = iter.map(|x| x.parse::<i32>().unwrap());
-        dbg!(&xs);
-    }
+        let iter = line.split_whitespace();
+        let xs = iter.map(|x| x.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        //dbg!(&xs);
 
-    println!("Day 02 Part 1. ...  ?");
+        // usinga sliding window of size 2, find difference between each pair of numbers
+        // method 1
+        // let mut t = vec!();
+        // for i in 1..xs.len() {
+        //     t.push(xs[i] - xs[i-1]);
+        // }
+        // dbg!(&t);
+
+        // method 2
+        let diffs = xs
+            .windows(2)
+            .map(|xs| {xs[1] - xs[0]})
+            .collect::<Vec<i32>>();
+        // dbg!(&diffs);
+
+        // all the diffs between each sliding window pair must be either between 1 and 3 inclusive
+        //  or all between -3 and -1 inclusive.
+        let test_decreasing = diffs
+            .iter()
+            .filter(|k| **k >= -3 && **k <= -1)
+            .count() == diffs.len();
+
+        let test_increasing = diffs
+            .iter()
+            .filter(|k| **k >= 1 && **k <= 3)
+            .count() == diffs.len();
+
+        // dbg!(test_increasing, test_decreasing);
+
+        // if passes either increasing or decreasing test add 1 to result vector else add 0
+        if test_increasing || test_decreasing { safes.push(1)} else { safes.push(0)}
+
+    }
+    let answer_p1 = safes.iter().sum::<i32>();
+    println!("Day 02 Part 1.  How many reports are safe?  {answer_p1}");
 
     // Part 2
 
-    println!("Day 02 Part 2.  ...?");
+
+    let answer_p2 = 0;
+    println!("Day 02 Part 2. How many reports are now safe? {answer_p2}");
 
     // End
     let current_datetime = Utc::now();
