@@ -12,8 +12,8 @@ cargo run --package advent-of-code-2024 --bin day01
 
 1. --- Day 1: Historian Hysteria ---
 2. --- Day 2: Red-Nosed Reports --- 
-3. Day  3:  
-4. Day  4:  
+3. --- Day 3: Mull It Over --- 
+4. --- Day 4: Ceres Search ---
 5. Day  5:  
 6. Day  6:  
 7. Day  7:  
@@ -27,6 +27,7 @@ cargo run --package advent-of-code-2024 --bin day01
 15. Day 15: 
 
 ### Days which were straightforward to solve
+1, 2 (p1)
 
 ### My stats at the end of the official contest
 TBD
@@ -38,11 +39,27 @@ TBD
 - I should have paid more attention in Rust class.  Rust looked easier from the back of the room than it is to me when coding. 🙂
 
 ```text
-What is the total distance between your lists?
-Day 01 Part 1 answer: 1941353
-What is their similarity score?
-Day 01 Part 2 answer: 22539317
+Day 01 Part 1.  What is the total distance between your lists? answer: 1941353
+Day 01 Part 2.   What is their similarity score?  answer: 22539317
 End.  Current date and time (UTC): 2024-12-01 18:02:49
 ```
 
-#### Day 12
+#### Day 2
+- Part 1 straightforward
+- Part 2 DNF
+
+```text
+Day 02 Part 1.  How many reports are safe?  572
+End.  Current date and time (UTC): 2024-12-04 01:34:03
+```
+
+#### Day 3
+- Decided to build a Finite State Machine instead of a regex to parse the input.
+- It was a win for Part 1, but took 3.5 hours to get it running.
+```text
+Day 03 Part 1.  What do you get if you add up all of the results of the multiplications? 178886550
+Day 03 Part 2.  ... DNF on same day
+End.  Current date and time (UTC): 2024-12-04 04:41:42
+```
+
+#### Day 4

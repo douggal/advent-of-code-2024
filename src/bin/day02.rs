@@ -11,8 +11,8 @@ fn main() {
     println!("---- Day 2: Red-Nosed Reports ---\n");
 
     // Reading buffered file contents into a string line by line
-    //let filename = "./input/day02.txt";
-    let filename = "./test_input/day02-test.txt";
+    let filename = "./input/day02.txt";
+    //let filename = "./test_input/day02-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -90,7 +90,7 @@ fn main() {
             .map(|xs| { xs[1] - xs[0] })
             .collect::<Vec<i32>>();
 
-        dbg!(&diffs);
+        // dbg!(&diffs);
 
 
 
