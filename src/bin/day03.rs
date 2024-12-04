@@ -12,8 +12,8 @@ fn main() {
     println!("--- Day 3: Mull It Over ---\n");
 
     // Reading buffered file contents into a string line by line
-    //let filename = "./input/day03.txt";
-    let filename = "./test_input/day03-test.txt";
+    let filename = "./input/day03.txt";
+    //let filename = "./test_input/day03-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -186,7 +186,7 @@ fn main() {
     // Part 2
 
     let answer_p2 = 0;
-    println!("Day 03 Part 2.  ... {answer_p2}");
+    println!("Day 03 Part 2.  what do you get if you add up all of the results of just the enabled multiplications? {answer_p2}");
 
     // End
     let current_datetime = Utc::now();

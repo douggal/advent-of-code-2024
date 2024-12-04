@@ -54,3 +54,10 @@ End.  Current date and time (UTC): 2024-12-04 01:34:03
 ```
 
 #### Day 3
+- Decided to build a Finite State Machine instead of a regex to parse the input.
+- It was a win for Part 1, but took 3.5 hours to get it running.
+```text
+Day 03 Part 1.  What do you get if you add up all of the results of the multiplications? 178886550
+Day 03 Part 2.  ... DNF on same day
+End.  Current date and time (UTC): 2024-12-04 04:41:42
+```
