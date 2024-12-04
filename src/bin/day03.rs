@@ -1,18 +1,18 @@
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
 
-// Advent of Code 2024 Day 2
-// 2 Dec 2024
+// Advent of Code 2024 Day 3
+// 3 Dec 2024
 // https://adventofcode.com/2024
 
 fn main() {
 
     println!("--- Advent of Code 2024 ---");
-    println!("---- Day 2: Red-Nosed Reports ---\n");
+    println!("--- Day 3: Mull It Over ---\n");
 
     // Reading buffered file contents into a string line by line
-    let filename = "./input/day02.txt";
-    //let filename = "./test_input/day02-test.txt";
+    //let filename = "./input/day03.txt";
+    let filename = "./test_input/day03-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -72,7 +72,7 @@ fn main() {
 
     }
     let answer_p1 = safes.iter().sum::<i32>();
-    println!("Day 02 Part 1.  How many reports are safe?  {answer_p1}");
+    println!("Day 03 Part 1.  What do you get if you add up all of the results of the multiplications? {answer_p1}");
 
     // Part 2
 
@@ -90,7 +90,7 @@ fn main() {
             .map(|xs| { xs[1] - xs[0] })
             .collect::<Vec<i32>>();
 
-        // dbg!(&diffs);
+        dbg!(&diffs);
 
 
 
