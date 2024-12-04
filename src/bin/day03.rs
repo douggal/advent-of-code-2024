@@ -179,7 +179,7 @@ fn main() {
         results.push(x*y);
     }
 
-    dbg!(&results);
+    // dbg!(&results);
     let answer_p1 = results.iter().sum::<i32>();
     println!("Day 03 Part 1.  What do you get if you add up all of the results of the multiplications? {answer_p1}");
 

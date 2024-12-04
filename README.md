@@ -13,7 +13,7 @@ cargo run --package advent-of-code-2024 --bin day01
 1. --- Day 1: Historian Hysteria ---
 2. --- Day 2: Red-Nosed Reports --- 
 3. --- Day 3: Mull It Over --- 
-4. Day  4:  
+4. --- Day 4: Ceres Search ---
 5. Day  5:  
 6. Day  6:  
 7. Day  7:  
@@ -61,3 +61,5 @@ Day 03 Part 1.  What do you get if you add up all of the results of the multipli
 Day 03 Part 2.  ... DNF on same day
 End.  Current date and time (UTC): 2024-12-04 04:41:42
 ```
+
+#### Day 4
