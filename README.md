@@ -63,3 +63,13 @@ End.  Current date and time (UTC): 2024-12-04 04:41:42
 ```
 
 #### Day 4
+- Nifty way to replace chars in a string this using match expression. Link: [stackoverflow.com](https://stackoverflow.com/questions/34606043/how-do-i-replace-specific-characters-idiomatically-in-rust)
+```rust
+   let s:String = input.chars()
+   .map(|x| match x {
+   '\n' => ' ',
+   _ => x
+   }).collect();
+```
+- How to find overlapping matches.  Look ahead:  https://stackoverflow.com/questions/11430863/how-to-find-overlapping-matches-with-a-regexp
+
