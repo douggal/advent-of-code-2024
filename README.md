@@ -14,8 +14,8 @@ cargo run --package advent-of-code-2024 --bin day01
 2. --- Day 2: Red-Nosed Reports --- 
 3. --- Day 3: Mull It Over --- 
 4. --- Day 4: Ceres Search ---
-5. Day  5:  
-6. Day  6:  
+5. --- Day 5: Print Queue --- 
+6. --- Day 6: Guard Gallivant ---
 7. Day  7:  
 8. Day  8:  
 9. Day  9:  
@@ -72,4 +72,10 @@ End.  Current date and time (UTC): 2024-12-04 04:41:42
    }).collect();
 ```
 - How to find overlapping matches.  Look ahead:  https://stackoverflow.com/questions/11430863/how-to-find-overlapping-matches-with-a-regexp
+- DNF - TODO
 
+#### Day 5
+- DNF
+
+#### Day 6
+- 
