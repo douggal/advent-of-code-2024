@@ -31,23 +31,58 @@ fn main() {
 
     // Part 1
 
-    // Nifty way to replace chars in a string this using match expression.
-    // https://stackoverflow.com/questions/34606043/how-do-i-replace-specific-characters-idiomatically-in-rust
-    let s:String = input.chars()
-        .map(|x| match x {
-            '\n' => ' ',
-            _ => x
-        }).collect();
-    println!("{}", s);
+    let input_vec = Vec::from(input.lines()
+        .filter(|line| !line.is_empty())
+        .collect::<Vec<&str>>());
+    dbg!(&input_vec);
 
-    let len_row = s.find(' ').unwrap();
-    let len_col = s.chars().filter(|x| *x == ' ').count();
-    println!("Row length: {}", len_row);
-    println!("Column length: {}", len_col);
+    // number of columns (width)
+    let nrows = input_vec[0].len();
+    println!("Number of rows: {}", nrows);
+
+    // number of rows (height)
+    let ncols = input_vec[0].len();
+    println!("Number of columns: {}", ncols);
+
+    // Create 2D array using vectors
+    // https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
+    let mut grid = vec![vec!['X'; ncols]; nrows];
+    let mut guard_x = 0;
+    let mut guard_y = 0;
+    for i in 0..nrows {
+        for j in 0..ncols {
+            grid[j][i] = input_vec[i].chars().nth(j).unwrap();
+            if grid[j][i] == '^' {
+                guard_x = j;
+                guard_y = i;
+            }
+        }
+    }
+    println!("Guard position: x = {}, y  = {}", guard_x, guard_y);
+
+
+    // Let's see what the grid looks like,
+    // and note the position of the guard
+    let mut x = 0;
+    let mut y = 0;
+    for i in 0..nrows {
+        for j in 0..ncols {
+            if grid[j][i] == '^' {
+                x  = j;
+                y = i;
+            }
+            print!("{} ", grid[j][i] );
+        }
+        println!();
+    }
+
+
+
 
 
     let answer_p1 = 0;
     println!("Day 06 Part 1.  How many distinct positions will the guard visit before leaving the mapped area?  {answer_p1}");
+
 
 
     // Part 2

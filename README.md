@@ -37,6 +37,7 @@ TBD
 #### Day 1
 - [Project structure suggestions from Reddit](https://www.reddit.com/r/adventofcode/comments/zikosa/how_to_organize_rust_code_for_advent_of_code/)
 - I should have paid more attention in Rust class.  Rust looked easier from the back of the room than it is to me when coding. 🙂
+- I was studying a top AoC competitor's Rust code for Day 1 ( ["noah r."](https://github.com/50SACINMYSOCIDGAF/AdventOfCode2024) ) and found he used a "sort_unstable()" method call.  I'd never heard term unstable sort (that I recall) and had to look it up ([Stackoverflow](https://stackoverflow.com/questions/15125552/what-is-the-meaning-of-stable-and-unstable-for-various-sorting-algorithms)).  Sure enough the [Rust docs](https://doc.rust-lang.org/std/primitive.slice.html#method.sort_unstable) say it's faster.
 
 ```text
 Day 01 Part 1.  What is the total distance between your lists? answer: 1941353
