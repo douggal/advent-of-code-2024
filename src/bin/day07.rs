@@ -31,7 +31,8 @@ fn main() {
     // dbg!(&input);
 
     // Part 1
-    let re_parse = Regex::new(r"(\d+): ((\d+) )+(\d+)").unwrap();
+    let _re_parse = Regex::new(r"(\d+): ((\d+) )+(\d+)").unwrap();  // didn't work as I intended
+
     let input_vec = Vec::from(
         input
             .lines()
@@ -45,13 +46,36 @@ fn main() {
     for line in input_vec.iter() {
         let (sum, tail) = line.split_once(":").unwrap();
         let sum = sum.parse::<i32>().unwrap();
-        let operands = tail.split_whitespace()
+        let operands = tail.trim().split_whitespace()
             .map(|o| o.parse::<i32>().unwrap()).collect::<Vec<i32>>();
         calibration_eqs.push((sum, operands));
     }
     dbg!(&calibration_eqs);
 
-
+    let operands = ['+','*'];
+    for eq in &calibration_eqs {
+        let sum = eq.0;
+        let mut adds = Vec::new();
+        let mut muls = Vec::new();
+        
+        for pair in eq.1.windows(2) {
+            for op in &operands {
+                
+                match op {
+                    '+' => adds.push(pair[0] + pair[1]),
+                    '*' => muls.push(pair[0] * pair[1]),
+                    _ => unreachable!(),
+                }
+                
+            }
+        }
+        for sum in &adds {
+            for mul in &muls {
+                if sum {  }
+            }
+            
+        }
+    }
 
     println!("Day 07 Part 1.  What is their total calibration result?  0");
 
