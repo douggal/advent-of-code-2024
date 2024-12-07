@@ -11,7 +11,7 @@ fn main() {
     println!("--- Day 6: Guard Gallivant ---\n");
 
     // Reading buffered file contents into a string line by line
-    //let filename = "./input/day06.txt";
+    // let filename = "./input/day06.txt";
     let filename = "./test_input/day06-test.txt";
 
     println!("Reading input file, filename = {}", filename);
@@ -30,11 +30,11 @@ fn main() {
     // dbg!(&input);
 
     // Part 1
-
+    // Naive solution :)
     let input_vec = Vec::from(input.lines()
         .filter(|line| !line.is_empty())
         .collect::<Vec<&str>>());
-    dbg!(&input_vec);
+    // dbg!(&input_vec);
 
     // number of columns (width)
     let nrows = input_vec[0].len();
@@ -44,8 +44,10 @@ fn main() {
     let ncols = input_vec[0].len();
     println!("Number of columns: {}", ncols);
 
-    // Create 2D array using vectors
+    // Represent the grid as a 2D array using vectors
     // https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
+    // and note the position of the guard.
+    // Origin is top left with grid growing down (y-axis) and to the right (x-axis).
     let mut grid = vec![vec!['X'; ncols]; nrows];
     let mut guard_x = 0;
     let mut guard_y = 0;
@@ -60,24 +62,38 @@ fn main() {
     }
     println!("Guard position: x = {}, y  = {}", guard_x, guard_y);
 
-
-    // Let's see what the grid looks like,
-    // and note the position of the guard
+    // for development let's see what the grid looks like.
     let mut x = 0;
     let mut y = 0;
-    for i in 0..nrows {
-        for j in 0..ncols {
-            if grid[j][i] == '^' {
-                x  = j;
-                y = i;
-            }
+    for i in 0..nrows { // rows
+        for j in 0..ncols { // columns
             print!("{} ", grid[j][i] );
         }
         println!();
     }
 
+    let mut cycle_count = 0;
+    let mut current_x = guard_x;
+    let mut current_y = guard_y;
+    let mut direction = 'N';
+    loop {
+        cycle_count += 1;
+        let mut x = current_x;
+        let mut y = current_y;
+        match direction {
+            'N' => y -= 1,
+            'S' => y += 1,
+            'E' => x += 1,
+            'W' => x -= 1,
+            _ => break,
+        }
+        if grid[y][x] == '#' {
 
+        }
 
+        break;
+    }
+    println!("Cycle count: {}", cycle_count);
 
 
     let answer_p1 = 0;
