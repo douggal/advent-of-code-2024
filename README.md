@@ -3,7 +3,7 @@ My solutions to the Advent of Code programming contest, December 2024.
 
 Advent of Code website:  [Advent of Code](https://adventofcode.com)
 
-Solutions are in Rust lang v1.83+ unless otherwise noted.
+Solutions are in Rust lang v1.83+ (2021 Edition) unless otherwise noted.
 
 To run a solution use cargo and supply the day's script name:
 ```shell
@@ -46,11 +46,9 @@ End.  Current date and time (UTC): 2024-12-01 18:02:49
 ```
 
 #### Day 2
-- Part 1 straightforward
-- Part 2 DNF
-
 ```text
 Day 02 Part 1.  How many reports are safe?  572
+Day 02 Part 2.  DNF
 End.  Current date and time (UTC): 2024-12-04 01:34:03
 ```
 
@@ -79,4 +77,12 @@ End.  Current date and time (UTC): 2024-12-04 04:41:42
 - DNF
 
 #### Day 6
-- 
+- Used straightforward implementation representing grid as nested vector.
+- Got help laying out grid's implementation with origin top-left and referencing the data 
+as the familiar (row, column) or (x,y)  style Cartestion coords 
+from [Stackoverflow](https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust)
+```text
+Day 06 Part 1.  How many distinct positions will the guard visit before leaving the mapped area?  4826 (out of 5517 loop cycles)
+Day 06 Part 2.  DNF/TODO
+End.  Current date and time (UTC): 2024-12-07 04:47:19
+```

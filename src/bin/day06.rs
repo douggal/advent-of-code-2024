@@ -1,13 +1,12 @@
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
-use regex::Regex;
-use std::arch::aarch64::int32x2_t;
 use std::collections::HashMap;
+
 // Advent of Code 2024 Day 6
 // 6 Dec 2024
 // https://adventofcode.com/2024
 
-fn print_grid(grid: Vec<Vec<char>>, nrows: usize, ncols: usize)-> () {
+fn print_grid(grid: &Vec<Vec<char>>, nrows: usize, ncols: usize)-> () {
     for i in 0..nrows {
         // rows
         for j in 0..ncols {
@@ -18,13 +17,15 @@ fn print_grid(grid: Vec<Vec<char>>, nrows: usize, ncols: usize)-> () {
     }
     println!();
 }
+
+
 fn main() {
     println!("--- Advent of Code 2024 ---");
     println!("--- Day 6: Guard Gallivant ---\n");
 
     // Reading buffered file contents into a string line by line
-    // let filename = "./input/day06.txt";
-    let filename = "./test_input/day06-test.txt";
+    let filename = "./input/day06.txt";
+    // let filename = "./test_input/day06-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -76,10 +77,10 @@ fn main() {
             }
         }
     }
-    println!("Guard position: x = {}, y  = {}", guard_x, guard_y);
+    println!("Guard start position (origin is top-left): x = {}, y  = {}", guard_x, guard_y);
 
     // for development let's see what the grid looks like.
-    print_grid(grid.clone(), nrows, ncols);
+    // print_grid(&grid, nrows, ncols);
 
     let direction_map = HashMap::from([('N', 'E'), ('E', 'S'), ('S', 'W'), ('W', 'N')]);
     let mut cycle_count = 0;
@@ -115,12 +116,13 @@ fn main() {
             break;
         }
         // dbg!((current_x, current_y, direction));
-        if cycle_count > 100 { break; }
+        if cycle_count > 10000000 { println!("Break!"); break; }
+
     }
 
-    print_grid(grid.clone(), nrows, ncols);
+    // print_grid(&grid, nrows, ncols);
 
-    let mut position_count = 0;
+    let mut position_count = 1;  // guard's intial position counts as 1
     for i in 0..nrows {
         // rows
         for j in 0..ncols {
@@ -131,10 +133,10 @@ fn main() {
         }
     }
 
-    println!("Cycle count: {}", cycle_count);
-    println!("Position count: {}", position_count);
-    let answer_p1 = 0;
-    println!("Day 06 Part 1.  How many distinct positions will the guard visit before leaving the mapped area?  {answer_p1}");
+    println!("Loop cycle count: {}", cycle_count);
+    println!("Unique position count: {}", position_count);
+
+    println!("Day 06 Part 1.  How many distinct positions will the guard visit before leaving the mapped area?  {position_count}");
 
     // Part 2
 
