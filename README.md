@@ -5,6 +5,8 @@ Advent of Code website:  [Advent of Code](https://adventofcode.com)
 
 Solutions are in Rust lang v1.83+ (2021 Edition) unless otherwise noted.
 
+[Rust language cheat sheet](https://cheats.rs/)
+
 To run a solution use cargo and supply the day's script name:
 ```shell
 cargo run --package advent-of-code-2024 --bin day01

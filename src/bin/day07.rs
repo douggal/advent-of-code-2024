@@ -1,7 +1,6 @@
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
-
-
+use regex::Regex;
 // Advent of Code 2024 Day 7
 // 7 Dec 2024
 // https://adventofcode.com/2024
@@ -32,15 +31,34 @@ fn main() {
     // dbg!(&input);
 
     // Part 1
+    let re_parse = Regex::new(r"(\d+): ((\d+) )+(\d+)").unwrap();
+    let input_vec = Vec::from(
+        input
+            .lines()
+            .map(|line|line.trim())
+            .filter(|line| !line.is_empty())
+            .collect::<Vec<&str>>()
+            );
+    dbg!(&input_vec);
+
+    let mut calibration_eqs = Vec::new();
+    for line in input_vec.iter() {
+        let (sum, tail) = line.split_once(":").unwrap();
+        let sum = sum.parse::<i32>().unwrap();
+        let operands = tail.split_whitespace()
+            .map(|o| o.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        calibration_eqs.push((sum, operands));
+    }
+    dbg!(&calibration_eqs);
 
 
 
-    println!("Day 07 Part 1.  How many distinct positions will the guard visit before leaving the mapped area?  0");
+    println!("Day 07 Part 1.  What is their total calibration result?  0");
 
     // Part 2
 
     // let answer_p2 = 0;
-    // println!("Day 06 Part 2. ... {answer_p2}");
+    // println!("Day 07 Part 2. ... {answer_p2}");
 
     // End
     let current_datetime = Utc::now();
