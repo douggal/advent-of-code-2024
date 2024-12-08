@@ -101,3 +101,7 @@ Elapsed: 515.29µs
 Day 07 Part 1.  What is their total calibration result?  1289579105366
 End.  Current date and time (UTC): 2024-12-08 03:03:49
 ```
+
+#### Day 8
+- How to idiomatically &quot;upsert&quot; to a mut Rust HashMap  [Stackoverflow](https://stackoverflow.com/questions/33243784/append-to-vector-as-value-of-hashmap)
+- 

@@ -1,6 +1,7 @@
-use advent_of_code_2024::{read_contents_buffered, read_puzzle_input};
+use std::collections::hash_map::Entry;
+use std::collections::HashMap;
+use advent_of_code_2024::{read_puzzle_input};
 use chrono::Utc;
-use regex::Regex;
 use std::time::Instant;
 
 // Advent of Code 2024 Day 8
@@ -11,7 +12,7 @@ fn main() {
     println!("--- Advent of Code 2024 ---");
     println!("--- Day 8: Resonant Collinearity ---\n");
 
-    // Reading buffered file contents into a string line by line
+    // Reading input into a newline separated String
     //let filename = "./input/day08.txt";
     let filename = "./test_input/day08-test.txt";
 
@@ -22,15 +23,57 @@ fn main() {
     // Look for first and last values!
     dbg!(&input);
 
+    // Convert input to a Vector of Vectors of String
+    let input_vec = Vec::from(
+        input
+            .lines()
+            .filter(|line| !line.is_empty())
+            .collect::<Vec<&str>>(),
+    );
+
+    // number of columns (width)
+    let nrows = input_vec[0].len();
+    println!("Number of rows: {}", nrows);
+
+    // number of rows (height)
+    let ncols = input_vec[0].len();
+    println!("Number of columns: {}", ncols);
+
+    // Represent the map of the antennas as a 2D grid array using vectors
+    // https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
+    // Origin is top left with grid growing down (y-axis) and to the right (x-axis).
+    let mut grid = vec![vec!['*'; ncols]; nrows];
+    let mut antennas: HashMap<char, Vec<(usize,usize)> >= HashMap::new();
+    for i in 0..nrows {
+        for j in 0..ncols {
+            let token = input_vec[i].chars().nth(j).unwrap();
+            grid[j][i] = token;
+
+            // build HashMap of antenna locations
+            if token != '.' {
+                // https://stackoverflow.com/questions/33243784/append-to-vector-as-value-of-hashmap
+                match antennas.entry(token) {
+                    Entry::Vacant(e) => { e.insert(vec![(j, i)]); },
+                    Entry::Occupied(mut e) => { e.get_mut().push((j, i)); }
+                }
+            }
+        }
+    }
+    print_grid(&grid, nrows, ncols);
+    dbg!(&antennas);
+
+
     // Track program runtime by "clock on the wall"
     let now = Instant::now();
 
     // Part 1
 
     let answer_p1 = 0;
-    println!("Day 08 Part 1.  What is the lowest positive integer?  {answer_p1}");
+    println!("Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  {answer_p1}");
     let elapsed = now.elapsed();
     println!("Elapsed time part 1: {:.2?}", elapsed);
+
+
 
     // Part 2
 
@@ -45,4 +88,17 @@ fn main() {
         "End.  Current date and time (UTC): {}",
         current_datetime.format("%Y-%m-%d %H:%M:%S")
     );
+}
+
+fn print_grid(grid: &Vec<Vec<char>>, nrows: usize, ncols: usize)-> () {
+    println!("Grid cell data(coords) ");
+    for i in 0..nrows {
+        // rows
+        for j in 0..ncols {
+            // columns
+            print!("[ {}({},{})]", grid[j][i],j, i);
+        }
+        println!();
+    }
+    println!();
 }
