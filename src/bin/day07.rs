@@ -15,8 +15,8 @@ fn main() {
     println!("--- Day 7: Bridge Repair ---\n");
 
     // Reading buffered file contents into a string line by line
-    let filename = "./input/day07.txt";
-    // let filename = "./test_input/day07-test.txt";
+    // let filename = "./input/day07.txt";
+    let filename = "./test_input/day07-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -70,14 +70,33 @@ fn main() {
     // dbg!(&count_calibration_eqs);
 
     let elapsed = now.elapsed();
-    println!("Elapsed: {:.2?}", elapsed);
+    println!("Elapsed Part 1: {:.2?}", elapsed);
 
     println!("Day 07 Part 1.  What is their total calibration result?  {}", count_calibration_eqs.iter().sum::<i64>());
 
+
+
     // Part 2
 
-    // let answer_p2 = 0;
-    // println!("Day 07 Part 2. ... {answer_p2}");
+    let _operators2 = ["+", "*","||"];
+
+    let mut count_calibration_eqs2 : Vec<i64>= Vec::new();
+    for eq in calibration_eqs.iter() {
+        let mut results: Vec<i64> = Vec::new();
+        let sum = eq.0 as i64;
+        build2(eq.1[0] as i64, eq.1[1], &eq.1[2..], _operators2, &mut results, sum);
+        results.sort();
+        results.dedup();
+        results.iter().for_each(|r| count_calibration_eqs2.push(*r));
+    }
+
+    // dbg!(&count_calibration_eqs);
+
+    let elapsed = now.elapsed();
+    println!("Elapsed Parts 1 and 2: {:.2?}", elapsed);
+
+    let answer_p2 = count_calibration_eqs2.iter().sum::<i64>();
+    println!("Day 07 Part 2. What is their total calibration result? {answer_p2}");
 
     // End
     let current_datetime = Utc::now();
@@ -85,6 +104,27 @@ fn main() {
         "End.  Current date and time (UTC): {}",
         current_datetime.format("%Y-%m-%d %H:%M:%S")
     );
+}
+
+fn build2(result: i64, head: i32, tail: &[i32], operators: [&str; 3], results: &mut Vec<i64>, sum: i64) {
+
+    let add = result + head as i64;
+    let mul = result * head as i64;
+    let con = result.to_string();
+    if tail.is_empty() {
+        if add == sum && add != mul{
+            results.push(add);
+        }
+        if mul == sum && add != mul{
+            results.push(mul);
+        }
+    }
+    else {
+        crate::build2(add, tail[0], &tail[1..], operators, results, sum);
+        crate::build2(mul, tail[0], &tail[1..], operators, results, sum);
+    }
+
+    ()
 }
 
 fn build(result: i64, head: i32, tail: &[i32], operators: [char; 2], results: &mut Vec<i64>, sum: i64) {
