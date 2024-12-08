@@ -1,6 +1,9 @@
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
 use regex::Regex;
+use std::time::Instant;
+
+
 // Advent of Code 2024 Day 7
 // 7 Dec 2024
 // https://adventofcode.com/2024
@@ -12,8 +15,8 @@ fn main() {
     println!("--- Day 7: Bridge Repair ---\n");
 
     // Reading buffered file contents into a string line by line
-    // let filename = "./input/day07.txt";
-    let filename = "./test_input/day07-test.txt";
+    let filename = "./input/day07.txt";
+    // let filename = "./test_input/day07-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = match read_contents_buffered(filename) {
@@ -31,7 +34,7 @@ fn main() {
     // dbg!(&input);
 
     // Part 1
-    let _re_parse = Regex::new(r"(\d+): ((\d+) )+(\d+)").unwrap();  // didn't work as I intended
+    let now = Instant::now();
 
     let input_vec = Vec::from(
         input
@@ -40,17 +43,17 @@ fn main() {
             .filter(|line| !line.is_empty())
             .collect::<Vec<&str>>()
     );
-    dbg!(&input_vec);
+    // dbg!(&input_vec);
 
     let mut calibration_eqs = Vec::new();
     for line in input_vec.iter() {
         let (sum, tail) = line.split_once(":").unwrap();
-        let sum = sum.parse::<i32>().unwrap();
+        let sum = sum.parse::<i64>().unwrap();
         let operands = tail.trim().split_whitespace()
             .map(|o| o.parse::<i32>().unwrap()).collect::<Vec<i32>>();
         calibration_eqs.push((sum, operands));
     }
-    dbg!(&calibration_eqs);
+    // dbg!(&calibration_eqs);
 
     let _operators = ['+', '*'];
 
@@ -64,8 +67,10 @@ fn main() {
         results.iter().for_each(|r| count_calibration_eqs.push(*r));
     }
 
-    dbg!(&count_calibration_eqs);
+    // dbg!(&count_calibration_eqs);
 
+    let elapsed = now.elapsed();
+    println!("Elapsed: {:.2?}", elapsed);
 
     println!("Day 07 Part 1.  What is their total calibration result?  {}", count_calibration_eqs.iter().sum::<i64>());
 
@@ -101,7 +106,4 @@ fn build(result: i64, head: i32, tail: &[i32], operators: [char; 2], results: &m
 
     ()
 }
-
-
-
 
