@@ -5,6 +5,8 @@ Advent of Code website:  [Advent of Code](https://adventofcode.com)
 
 Solutions are in Rust lang v1.83+ (2021 Edition) unless otherwise noted.
 
+[Rust language cheat sheet](https://cheats.rs/)
+
 To run a solution use cargo and supply the day's script name:
 ```shell
 cargo run --package advent-of-code-2024 --bin day01
@@ -77,6 +79,7 @@ End.  Current date and time (UTC): 2024-12-04 04:41:42
 - DNF
 
 #### Day 6
+- Informal way to compute elapsed time link: [Stackoveflow](https://stackoverflow.com/questions/13322479/how-to-benchmark-programs-in-rust)
 - Used straightforward implementation representing grid as nested vector.
 - Got help laying out grid's implementation with origin top-left and referencing the data 
 as the familiar (row, column) or (x,y)  style Cartestion coords 
@@ -88,4 +91,13 @@ End.  Current date and time (UTC): 2024-12-07 04:47:19
 ```
 
 #### Day 7
-- TBD
+- Implemented as a tree structure.
+- I'll mark this one to come back to and study this one
+in January.  I should be able to dd a better job with it.  
+I carried value of each node forward, and added to a list of results when I reach leaf/deepest point in each path.
+- Part 2 TODO
+```text
+Elapsed: 515.29µs
+Day 07 Part 1.  What is their total calibration result?  1289579105366
+End.  Current date and time (UTC): 2024-12-08 03:03:49
+```
