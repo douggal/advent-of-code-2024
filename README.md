@@ -19,7 +19,7 @@ cargo run --package advent-of-code-2024 --bin day01
 5. --- Day 5: Print Queue --- 
 6. --- Day 6: Guard Gallivant ---
 7. --- Day 7: Bridge Repair --- 
-8. Day  8:  
+8. --- Day 8: Resonant Collinearity ---
 9. Day  9:  
 10. Day 10: 
 11. Day 11: 
