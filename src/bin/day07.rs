@@ -36,10 +36,10 @@ fn main() {
     let input_vec = Vec::from(
         input
             .lines()
-            .map(|line|line.trim())
+            .map(|line| line.trim())
             .filter(|line| !line.is_empty())
             .collect::<Vec<&str>>()
-            );
+    );
     dbg!(&input_vec);
 
     let mut calibration_eqs = Vec::new();
@@ -52,32 +52,22 @@ fn main() {
     }
     dbg!(&calibration_eqs);
 
-    let operands = ['+','*'];
-    for eq in &calibration_eqs {
-        let sum = eq.0;
-        let mut adds = Vec::new();
-        let mut muls = Vec::new();
-        
-        for pair in eq.1.windows(2) {
-            for op in &operands {
-                
-                match op {
-                    '+' => adds.push(pair[0] + pair[1]),
-                    '*' => muls.push(pair[0] * pair[1]),
-                    _ => unreachable!(),
-                }
-                
-            }
-        }
-        for sum in &adds {
-            for mul in &muls {
-                if sum {  }
-            }
-            
-        }
+    let _operators = ['+', '*'];
+
+    let mut count_calibration_eqs : Vec<i64>= Vec::new();
+    for eq in calibration_eqs.iter() {
+        let mut results: Vec<i64> = Vec::new();
+        let sum = eq.0 as i64;
+        build(eq.1[0] as i64, eq.1[1], &eq.1[2..], _operators, &mut results, sum);
+        results.sort();
+        results.dedup();
+        results.iter().for_each(|r| count_calibration_eqs.push(*r));
     }
 
-    println!("Day 07 Part 1.  What is their total calibration result?  0");
+    dbg!(&count_calibration_eqs);
+
+
+    println!("Day 07 Part 1.  What is their total calibration result?  {}", count_calibration_eqs.iter().sum::<i64>());
 
     // Part 2
 
@@ -91,3 +81,27 @@ fn main() {
         current_datetime.format("%Y-%m-%d %H:%M:%S")
     );
 }
+
+fn build(result: i64, head: i32, tail: &[i32], operators: [char; 2], results: &mut Vec<i64>, sum: i64) {
+
+    let add = result + head as i64;
+    let mul = result * head as i64;
+    if tail.is_empty() {
+        if add == sum && add != mul{
+            results.push(add);
+        }
+        if mul == sum && add != mul{
+            results.push(mul);
+        }
+    }
+    else {
+        build(add, tail[0], &tail[1..], operators, results, sum);
+        build(mul, tail[0], &tail[1..], operators, results, sum);
+    }
+
+    ()
+}
+
+
+
+
