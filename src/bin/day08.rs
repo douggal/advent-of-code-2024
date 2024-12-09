@@ -12,8 +12,7 @@ use std::time::Instant;
 // https://adventofcode.com/2024
 
 // A struct with two fields
-#[derive(Debug, Clone, Copy)]
-#[derive(PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 struct Point {
     x: i32,
     y: i32,
@@ -41,6 +40,7 @@ fn main() {
             .filter(|line| !line.is_empty())
             .collect::<Vec<&str>>(),
     );
+    // dbg!(&input_vec);
 
     // number of columns (width)
     let nrows = input_vec[0].len() as i32;
@@ -79,7 +79,6 @@ fn main() {
     print_grid(&grid, nrows, ncols);
     // dbg!(&antennas);
 
-
     // Track program runtime by "clock on the wall"
     let now = Instant::now();
 
@@ -98,13 +97,13 @@ fn main() {
         let count = antenna.len();
         dbg!(antenna);
         for r in 0..count {
-            for s in r+1..count {
+            for s in r + 1..count {
                 let (x1, y1) = antenna[r];
                 let (x2, y2) = antenna[s];
 
                 let rise = y2 - y1; // y-axis
                 let run = x2 - x1; // x-axis
-                let slope  = rise as f32 / run as f32;
+                let slope = rise as f32 / run as f32;
 
                 dbg!((x1, y1, x2, y2, rise, run));
 
@@ -116,40 +115,61 @@ fn main() {
                     if rise == 0 {
                         // horizontal line
                         // add and subject x values
-                        let point_1: Point = Point {
-                            x: x1 - run,
-                            y: y1,
-                        };
-                        let point_2: Point = Point {
-                            x: x2 + run,
-                            y: y2,
-                        };
+                        let point_1: Point;
+                        let point_2: Point;
+                        if x1 < x2 {
+                            point_1 = Point { x: x1 - run.abs(), y: y1 };
+                        } else {
+                            point_1 = Point { x: x2 - run.abs(), y: y2 };
+                        }
+                        if x1 > x2 {
+                            point_2 = Point { x: x1 + run.abs(), y: y1 };
+                        } else {
+                            point_2 = Point { x: x2 - run.abs(), y: y2 };
+                        }
                         if on_grid(point_1, nrows, ncols) {
                             antipodes.push(point_1);
-                            grid[x1 as usize][y1 as usize] = '#'
+                            grid[point_1.x as usize][point_1.y as usize] = '#';
                         }
                         if on_grid(point_2, nrows, ncols) {
                             antipodes.push(point_2);
-                            grid[x2 as usize][y2 as usize] = '#'
+                            grid[point_2.x as usize][point_2.y as usize] = '#';
                         }
                     } else if run == 0 {
                         // vertical line
                         // add and subject x values
-                        let point_1: Point = Point {
-                            x: x1,
-                            y: y1 - rise
-                        };
-                        let point_2: Point = Point {
-                            x: x2,
-                            y: y2+rise,
-                        };
+                        let point_1: Point;
+                        let point_2: Point;
+                        if x1 < x2 {
+                            point_1 = Point {
+                                x: x1,
+                                y: y1 - rise,
+                            };
+                        } else {
+                            point_1 = Point {
+                                x: x2,
+                                y: y2 - rise,
+                            };
+                        }
+                        if x1 > x2 {
+                            point_2 = Point {
+                                x: x1,
+                                y: y1 + rise,
+                            };
+                        } else {
+                            point_2 = Point {
+                                x: x2,
+                                y: y2 + rise,
+                            };
+                        }
+
                         if on_grid(point_1, nrows, ncols) {
                             antipodes.push(point_1);
-                            grid[x1 as usize][y1 as usize] = '#'
+                            grid[point_1.x as usize][point_1.y as usize] = '#';
                         }
                         if on_grid(point_2, nrows, ncols) {
                             antipodes.push(point_2);
-                            grid[x2 as usize][y2 as usize] = '#'
+                            grid[point_2.x as usize][point_2.y as usize] = '#';
                         }
                     } else if slope > 0.0 {
                         // rises to the left
@@ -160,33 +180,33 @@ fn main() {
                         let point_2: Point;
                         if x1 < x2 {
                             point_1 = Point {
-                                x: x1 - run,
-                                y: y1 - rise
+                                x: x1 - run.abs(),
+                                y: y1 - rise,
                             };
                         } else {
                             point_1 = Point {
-                                x: x2 - run,
-                                y: y2 - rise
+                                x: x2 - run.abs(),
+                                y: y2 - rise,
                             };
                         }
-                        if y2 > y1 {
+                        if x2 > x1 {
                             point_2 = Point {
-                                x: x2 + run,
+                                x: x2 + run.abs(),
                                 y: y2 + rise,
                             };
                         } else {
                             point_2 = Point {
-                                x: x1 + run,
+                                x: x1 + run.abs(),
                                 y: y1 + rise,
                             };
                         }
                         if on_grid(point_1, nrows, ncols) {
                             antipodes.push(point_1);
-                            grid[x1 as usize][y1 as usize] = '#'
+                            grid[point_1.x as usize][point_1.y as usize] = '#';
                         }
                         if on_grid(point_2, nrows, ncols) {
                             antipodes.push(point_2);
-                            grid[x2 as usize][y2 as usize] = '#'
+                            grid[point_2.x as usize][point_2.y as usize] = '#';
                         }
                     } else {
                         // slope < 0.0
@@ -195,55 +215,47 @@ fn main() {
 
                         let point_1: Point;
                         let point_2: Point;
-                        if x2 > x1 {
+                        if x1 < x2 {
                             point_1 = Point {
-                                x: x1 + run,
-                                y: y1 - rise
+                                x: x1 - run.abs(),
+                                y: y1 - rise.abs(),
                             };
                         } else {
+                            // x2 > x1
                             point_1 = Point {
-                                x: x2 + run,
-                                y: y2 + rise
+                                x: x2 - run.abs(),
+                                y: y2 - rise.abs(),
                             };
                         }
-                        if y2 > y1 {
+                        if x2 < x1 {
                             point_2 = Point {
-                                x: x2 + run,
+                                x: x1 + run.abs(),
+                                y: y1 + rise.abs(),
+                            };
+                        } else {
+                            // x1 < x2
+                            point_2 = Point {
+                                x: x2 + run.abs(),
                                 y: y2 + rise,
                             };
-                        } else {
-                            point_2 = Point {
-                                x: x1 + run,
-                                y: y1 + rise,
-                            };
                         }
-
-                        // let point_1: Point = Point {
-                        //     x: x1 + run,
-                        //     y: y1 - rise
-                        // };
-                        // let point_2: Point = Point {
-                        //     x: x2 - run,
-                        //     y: y2 + rise,
-                        // };
                         if on_grid(point_1, nrows, ncols) {
                             antipodes.push(point_1);
-                            grid[x1 as usize][y1 as usize] = '#'
+                            grid[point_1.x as usize][point_1.y as usize] = '#';
                         }
                         if on_grid(point_2, nrows, ncols) {
                             antipodes.push(point_2);
-                            grid[x2 as usize][y2 as usize] = '#'
+                            grid[point_2.x as usize][point_2.y as usize] = '#';
                         }
                     }
                 }
-            };
-        };
+            }
+        }
     }
     antipodes.dedup();
     dbg!(&antipodes);
 
     print_grid(&grid, nrows, ncols);
-
 
     let answer_p1 = antipodes.iter().count();
     println!("Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  {answer_p1}");
@@ -278,7 +290,10 @@ fn print_grid(grid: &Vec<Vec<char>>, nrows: i32, ncols: i32) -> () {
         // rows
         for j in 0..ncols {
             // columns
-            print!("[{}] ({},{}) ", grid[j as usize][i as usize], j as usize, i as usize);
+            print!(
+                "[{}] ({},{}) ",
+                grid[j as usize][i as usize], j as usize, i as usize
+            );
         }
         println!();
     }
