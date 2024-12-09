@@ -1,6 +1,8 @@
-use advent_of_code_2024::{read_contents_buffered, read_puzzle_input};
+// An attribute to hide warnings for unused code.
+#![allow(dead_code)]
+
+use advent_of_code_2024::{read_puzzle_input};
 use chrono::Utc;
-use regex::Regex;
 use std::time::Instant;
 
 // Advent of Code 2024 Day XX
