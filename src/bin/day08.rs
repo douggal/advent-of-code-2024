@@ -117,13 +117,13 @@ fn main() {
                         // add and subject x values
                         let point_1: Point;
                         let point_2: Point;
-                        if x1 < x2 {
-                            point_1 = Point { x: x1 - run.abs(), y: y1 };
+                        if x1 > x2 { // right side
+                            point_1 = Point { x: x1 + run.abs(), y: y1 };
                         } else {
-                            point_1 = Point { x: x2 - run.abs(), y: y2 };
+                            point_1 = Point { x: x2 + run.abs(), y: y2 };
                         }
-                        if x1 > x2 {
-                            point_2 = Point { x: x1 + run.abs(), y: y1 };
+                        if x1 < x2 { // left side
+                            point_2 = Point { x: x1 - run.abs(), y: y1 };
                         } else {
                             point_2 = Point { x: x2 - run.abs(), y: y2 };
                         }
@@ -140,7 +140,7 @@ fn main() {
                         // add and subject x values
                         let point_1: Point;
                         let point_2: Point;
-                        if x1 < x2 {
+                        if y1 < y2 {
                             point_1 = Point {
                                 x: x1,
                                 y: y1 - rise,
@@ -215,19 +215,19 @@ fn main() {
 
                         let point_1: Point;
                         let point_2: Point;
-                        if x1 < x2 {
+                        if x1 > x2 {
                             point_1 = Point {
-                                x: x1 - run.abs(),
+                                x: x1 + run.abs(),
                                 y: y1 - rise.abs(),
                             };
                         } else {
                             // x2 > x1
                             point_1 = Point {
-                                x: x2 - run.abs(),
+                                x: x2 + run.abs(),
                                 y: y2 - rise.abs(),
                             };
                         }
-                        if x2 < x1 {
+                        if x1 < x2 {
                             point_2 = Point {
                                 x: x1 + run.abs(),
                                 y: y1 + rise.abs(),
@@ -278,7 +278,7 @@ fn main() {
 }
 
 fn on_grid(p0: Point, nrows: i32, ncols: i32) -> bool {
-    if (p0.x < 0 || p0.x >= nrows) || (p0.y < 0 || p0.y >= ncols) {
+    if (p0.x < 0 || p0.x >= ncols) || (p0.y < 0 || p0.y >= nrows) {
         return false;
     }
     true
