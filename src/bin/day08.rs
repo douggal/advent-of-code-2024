@@ -3,6 +3,7 @@
 
 use advent_of_code_2024::read_puzzle_input;
 use chrono::Utc;
+use std::cmp::Ordering;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -12,11 +13,12 @@ use std::time::Instant;
 // https://adventofcode.com/2024
 
 // A struct with two fields
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct Point {
     x: i32,
     y: i32,
 }
+
 
 fn main() {
     println!("--- Advent of Code 2024 ---");
@@ -98,156 +100,92 @@ fn main() {
         dbg!(antenna);
         for r in 0..count {
             for s in r + 1..count {
-                let (x1, y1) = antenna[r];
-                let (x2, y2) = antenna[s];
 
-                let rise = y2 - y1; // y-axis
-                let run = x2 - x1; // x-axis
-                let slope = rise as f32 / run as f32;
+                let point_1:Point;
+                let point_2:Point;
+                let antinode_1: Point;
+                let antinode_2: Point;
 
-                dbg!((x1, y1, x2, y2, rise, run));
+                // order of points matters (to me anyway), order by x-values
+                // point_1 is on the left side and point_2 is on the right
+                if antenna[r].0 <= antenna[s].0 {
+                    point_1 = Point {
+                        x:  antenna[r].0,
+                        y:  antenna[r].1,
+                    };
+                    point_2 = Point {
+                        x: antenna[s].0,
+                        y: antenna[s].1
+                    }
+                } else {
+                    point_1 = Point {
+                        x:  antenna[s].0,
+                        y:  antenna[s].1,
+                    };
+                    point_2 = Point {
+                        x: antenna[r].0,
+                        y: antenna[r].1
+                    }
+                }
 
-                // order of points matters, how to order the points ???
+                let rise = point_2.y - point_1.y ; // y-axis
+                let run = point_2.x - point_1.x;  // x-axis
+                let slope = slope(rise, run);
 
-                if rise != 0 && run != 0 {
-                    // that is, two different antennas, not same one twice.
-                    // now find the antinode(s) for this pair of antennas
-                    if rise == 0 {
-                        // horizontal line
-                        // add and subject x values
-                        let point_1: Point;
-                        let point_2: Point;
-                        if x1 > x2 { // right side
-                            point_1 = Point { x: x1 + run.abs(), y: y1 };
-                        } else {
-                            point_1 = Point { x: x2 + run.abs(), y: y2 };
-                        }
-                        if x1 < x2 { // left side
-                            point_2 = Point { x: x1 - run.abs(), y: y1 };
-                        } else {
-                            point_2 = Point { x: x2 - run.abs(), y: y2 };
-                        }
-                        if on_grid(point_1, nrows, ncols) {
-                            antipodes.push(point_1);
-                            grid[point_1.x as usize][point_1.y as usize] = '#';
-                        }
-                        if on_grid(point_2, nrows, ncols) {
-                            antipodes.push(point_2);
-                            grid[point_2.x as usize][point_2.y as usize] = '#';
-                        }
-                    } else if run == 0 {
-                        // vertical line
-                        // add and subject x values
-                        let point_1: Point;
-                        let point_2: Point;
-                        if y1 < y2 {
-                            point_1 = Point {
-                                x: x1,
-                                y: y1 - rise,
-                            };
-                        } else {
-                            point_1 = Point {
-                                x: x2,
-                                y: y2 - rise,
-                            };
-                        }
-                        if x1 > x2 {
-                            point_2 = Point {
-                                x: x1,
-                                y: y1 + rise,
-                            };
-                        } else {
-                            point_2 = Point {
-                                x: x2,
-                                y: y2 + rise,
-                            };
-                        }
+                // dbg!((x1, y1, x2, y2, rise, run, slope));
 
-                        if on_grid(point_1, nrows, ncols) {
-                            antipodes.push(point_1);
-                            grid[point_1.x as usize][point_1.y as usize] = '#';
-                        }
-                        if on_grid(point_2, nrows, ncols) {
-                            antipodes.push(point_2);
-                            grid[point_2.x as usize][point_2.y as usize] = '#';
-                        }
-                    } else if slope > 0.0 {
-                        // rises to the left
-                        // add and subject x values
-                        // 1st antinode
-                        // Order matters !
-                        let point_1: Point;
-                        let point_2: Point;
-                        if x1 < x2 {
-                            point_1 = Point {
-                                x: x1 - run.abs(),
-                                y: y1 - rise,
+                // now find the antinode(s) for this pair of antennas
+                match slope {
+                    Some(s) => {
+                        // handle each case
+                        // horizontal, vertical, sloped
+                        if s == 0.0 {
+                            // horizontal line
+                            // left side antinode
+                            antinode_1 = Point {
+                                x: point_1.x + run,
+                                y: point_1.y,
                             };
-                        } else {
-                            point_1 = Point {
-                                x: x2 - run.abs(),
-                                y: y2 - rise,
+                            // right side antinode
+                            antinode_2 = Point {
+                                x: point_2.x + run,
+                                y: point_2.y,
                             };
-                        }
-                        if x2 > x1 {
-                            point_2 = Point {
-                                x: x2 + run.abs(),
-                                y: y2 + rise,
+                        } else { // s != 0
+                            antinode_1 = Point {
+                                x: point_1.x - run,
+                                y: point_1.y - rise,
                             };
-                        } else {
-                            point_2 = Point {
-                                x: x1 + run.abs(),
-                                y: y1 + rise,
+                            // right side
+                            antinode_2 = Point {
+                                x: point_1.x + run,
+                                y: point_2.y + run,
                             };
-                        }
-                        if on_grid(point_1, nrows, ncols) {
-                            antipodes.push(point_1);
-                            grid[point_1.x as usize][point_1.y as usize] = '#';
-                        }
-                        if on_grid(point_2, nrows, ncols) {
-                            antipodes.push(point_2);
-                            grid[point_2.x as usize][point_2.y as usize] = '#';
-                        }
-                    } else {
-                        // slope < 0.0
-                        // rises to the right
-                        // add and subject x values
-
-                        let point_1: Point;
-                        let point_2: Point;
-                        if x1 > x2 {
-                            point_1 = Point {
-                                x: x1 + run.abs(),
-                                y: y1 - rise.abs(),
-                            };
-                        } else {
-                            // x2 > x1
-                            point_1 = Point {
-                                x: x2 + run.abs(),
-                                y: y2 - rise.abs(),
-                            };
-                        }
-                        if x1 < x2 {
-                            point_2 = Point {
-                                x: x1 + run.abs(),
-                                y: y1 + rise.abs(),
-                            };
-                        } else {
-                            // x1 < x2
-                            point_2 = Point {
-                                x: x2 + run.abs(),
-                                y: y2 + rise,
-                            };
-                        }
-                        if on_grid(point_1, nrows, ncols) {
-                            antipodes.push(point_1);
-                            grid[point_1.x as usize][point_1.y as usize] = '#';
-                        }
-                        if on_grid(point_2, nrows, ncols) {
-                            antipodes.push(point_2);
-                            grid[point_2.x as usize][point_2.y as usize] = '#';
                         }
                     }
+                    None => {
+                        // Vertical line, slope is not defined.
+                        // horizontal line
+                        // left side antinode
+                        antinode_1 = Point {
+                            x: point_1.x,
+                            y: point_1.y + rise,
+                        };
+                        // right side antinode
+                        antinode_2 = Point {
+                            x: point_2.x,
+                            y: point_2.y + rise,
+                        };
+                    }
+                }
+
+                if on_grid(antinode_1, nrows, ncols) {
+                    antipodes.push(antinode_1);
+                    grid[antinode_1.x as usize][antinode_1.y as usize] = '#';
+                }
+                if on_grid(antinode_2, nrows, ncols) {
+                    antipodes.push(antinode_2);
+                    grid[antinode_2.x as usize][antinode_2.y as usize] = '#';
                 }
             }
         }
@@ -277,7 +215,16 @@ fn main() {
     );
 }
 
+fn slope(rise: i32, run: i32) -> Option<f32> {
+    if run == 0 {
+        return None;
+    }
+    let slope = rise as f32 / run as f32;
+    Some(slope)
+}
+
 fn on_grid(p0: Point, nrows: i32, ncols: i32) -> bool {
+    // returns true if point is within the grid, false otherwise
     if (p0.x < 0 || p0.x >= ncols) || (p0.y < 0 || p0.y >= nrows) {
         return false;
     }
@@ -285,6 +232,7 @@ fn on_grid(p0: Point, nrows: i32, ncols: i32) -> bool {
 }
 
 fn print_grid(grid: &Vec<Vec<char>>, nrows: i32, ncols: i32) -> () {
+    // print out grid and coords of each point
     println!("Grid cell data(coords) ");
     for i in 0..nrows {
         // rows
