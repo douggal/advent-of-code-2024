@@ -130,8 +130,8 @@ fn main() {
                     }
                 }
 
-                let rise = point_2.y - point_1.y; // y-axis
-                let run = point_2.x - point_1.x; // x-axis
+                let rise = (point_2.y - point_1.y).abs(); // y-axis
+                let run = (point_2.x - point_1.x).abs(); // x-axis
                 let slope = slope(rise, run);
 
                 // dbg!((x1, y1, x2, y2, rise, run, slope));
@@ -153,27 +153,25 @@ fn main() {
                                 x: point_2.x + run,
                                 y: point_2.y,
                             };
-                        } else if s > 0.0 {
-                            // negative slope == line segment rises to the right
+                        } else if s < 0.0 {
                             antinode_1 = Point {
                                 x: point_1.x - run,
                                 y: point_1.y + rise,
                             };
                             // right side
                             antinode_2 = Point {
-                                x: point_1.x + run,
+                                x: point_2.x + run,
                                 y: point_2.y - rise,
                             };
                         } else {
-                            // positive slope == line segment rises to the left
                             antinode_1 = Point {
                                 x: point_1.x - run,
                                 y: point_1.y - rise,
                             };
                             // right side
                             antinode_2 = Point {
-                                x: point_1.x + run,
-                                y: point_2.y + run,
+                                x: point_2.x + run,
+                                y: point_2.y + rise,
                             };
                         }
                     }
