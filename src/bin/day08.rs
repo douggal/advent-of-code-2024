@@ -28,8 +28,8 @@ fn main() {
     println!("--- Day 8: Resonant Collinearity ---\n");
 
     // Reading input into a newline separated String
-    //let filename = "./input/day08.txt";
-    let filename = "./test_input/day08-test.txt";
+    let filename = "./input/day08.txt";
+    // let filename = "./test_input/day08-test.txt";
 
     println!("Reading input file, filename = {}", filename);
     let input = read_puzzle_input(filename);
@@ -81,7 +81,7 @@ fn main() {
             }
         }
     }
-    print_grid(&grid, nrows, ncols);
+    // print_grid(&grid, nrows, ncols);
     // dbg!(&antennas);
 
     // Track program runtime by "clock on the wall"
@@ -94,7 +94,7 @@ fn main() {
 
     // loop and for each pair of antennas find slope, tangent or rise over run and figure out
     // where the antinodes must be ???
-    let mut antipodes = Vec::new();
+    let mut antinodes = Vec::new();
 
     for antenna in antennas.values() {
         // need to find all pairs, not a sliding window!
@@ -130,11 +130,11 @@ fn main() {
                     }
                 }
 
-                let rise = (point_2.y - point_1.y).abs(); // y-axis
-                let run = (point_2.x - point_1.x).abs(); // x-axis
+                let rise = point_1.y - point_2.y; // y-axis
+                let run = point_1.x - point_2.x; // x-axis
                 let slope = slope(rise, run);
 
-                // dbg!((x1, y1, x2, y2, rise, run, slope));
+                // dbg!((point_1, point_2, rise, run, slope));
 
                 // now find the antinode(s) for this pair of antennas
                 match slope {
@@ -153,25 +153,15 @@ fn main() {
                                 x: point_2.x + run,
                                 y: point_2.y,
                             };
-                        } else if s < 0.0 {
+                        } else {
                             antinode_1 = Point {
-                                x: point_1.x - run,
+                                x: point_1.x + run,
                                 y: point_1.y + rise,
                             };
                             // right side
                             antinode_2 = Point {
-                                x: point_2.x + run,
+                                x: point_2.x - run,
                                 y: point_2.y - rise,
-                            };
-                        } else {
-                            antinode_1 = Point {
-                                x: point_1.x - run,
-                                y: point_1.y - rise,
-                            };
-                            // right side
-                            antinode_2 = Point {
-                                x: point_2.x + run,
-                                y: point_2.y + rise,
                             };
                         }
                     }
@@ -182,16 +172,6 @@ fn main() {
                            // top antinode
                            antinode_1 = Point {
                                x: point_1.x,
-                               y: point_1.y - rise,
-                           };
-                           // bottom antinode
-                           antinode_2 = Point {
-                               x: point_2.x,
-                               y: point_2.y + rise,
-                           };
-                       } else {
-                           antinode_1 = Point {
-                               x: point_1.x,
                                y: point_1.y + rise,
                            };
                            // bottom antinode
@@ -199,27 +179,40 @@ fn main() {
                                x: point_2.x,
                                y: point_2.y - rise,
                            };
+                       } else {
+                           antinode_1 = Point {
+                               x: point_1.x,
+                               y: point_1.y - rise,
+                           };
+                           // bottom antinode
+                           antinode_2 = Point {
+                               x: point_2.x,
+                               y: point_2.y + rise,
+                           };
                        }
                     }
                 }
 
                 if on_grid(antinode_1, nrows, ncols) {
-                    antipodes.push(antinode_1);
+                    antinodes.push(antinode_1);
                     grid[antinode_1.x as usize][antinode_1.y as usize] = '#';
                 }
                 if on_grid(antinode_2, nrows, ncols) {
-                    antipodes.push(antinode_2);
+                    antinodes.push(antinode_2);
                     grid[antinode_2.x as usize][antinode_2.y as usize] = '#';
                 }
             }
         }
     }
-    antipodes.dedup();
-    dbg!(&antipodes);
+    antinodes.sort_by(|a, b| a.x.cmp(&b.x));
+    antinodes.dedup();
+    // dbg!(&antinodes);
 
-    print_grid(&grid, nrows, ncols);
+    // print_grid(&grid, nrows, ncols);
 
-    let answer_p1 = antipodes.iter().count();
+    // 374 too high
+
+    let answer_p1 = antinodes.iter().count();
     println!("Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  {answer_p1}");
     let elapsed = now.elapsed();
     println!("Elapsed time part 1: {:.2?}", elapsed);
