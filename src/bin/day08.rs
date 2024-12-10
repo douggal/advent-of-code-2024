@@ -168,7 +168,7 @@ fn main() {
                     None => {
                         // Vertical line, slope is not defined.
                         // need to look at y-values since x-values are same
-                       if point_1.y < point_2.y {
+                       if point_1.y <= point_2.y {
                            // top antinode
                            antinode_1 = Point {
                                x: point_1.x,
@@ -211,6 +211,7 @@ fn main() {
     // print_grid(&grid, nrows, ncols);
 
     // 374 too high
+    // 369 too high
 
     let answer_p1 = antinodes.iter().count();
     println!("Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  {answer_p1}");
