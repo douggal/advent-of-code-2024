@@ -3,7 +3,6 @@
 
 use advent_of_code_2024::read_puzzle_input;
 use chrono::Utc;
-use std::cmp::Ordering;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -13,12 +12,16 @@ use std::time::Instant;
 // https://adventofcode.com/2024
 
 // A struct with two fields
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy)]
 struct Point {
     x: i32,
     y: i32,
 }
-
+impl PartialEq for Point {
+    fn eq(&self, other: &Self) -> bool {
+        self.x == other.x && self.y == other.y
+    }
+}
 
 fn main() {
     println!("--- Advent of Code 2024 ---");
@@ -56,7 +59,7 @@ fn main() {
     // https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
     // Origin is top left with grid growing down (y-axis) and to the right (x-axis).
     let mut grid = vec![vec!['*'; ncols as usize]; nrows as usize];
-    let mut antennas: HashMap<char, Vec<(i32, i32)>> = HashMap::new();
+    let mut antennas: HashMap<char, Vec<Point>> = HashMap::new();
     for i in 0..nrows as usize {
         for j in 0..ncols as usize {
             let x = j as i32;
@@ -69,10 +72,10 @@ fn main() {
                 // https://stackoverflow.com/questions/33243784/append-to-vector-as-value-of-hashmap
                 match antennas.entry(token) {
                     Entry::Vacant(e) => {
-                        e.insert(vec![(x, y)]);
+                        e.insert(vec![Point { x, y }]);
                     }
                     Entry::Occupied(mut e) => {
-                        e.get_mut().push((x, y));
+                        e.get_mut().push(Point { x, y });
                     }
                 }
             }
@@ -97,39 +100,38 @@ fn main() {
         // need to find all pairs, not a sliding window!
         // no duplicate pairs, each combo only once!
         let count = antenna.len();
-        dbg!(antenna);
+        // dbg!(antenna);
         for r in 0..count {
             for s in r + 1..count {
-
-                let point_1:Point;
-                let point_2:Point;
+                let point_1: Point;
+                let point_2: Point;
                 let antinode_1: Point;
                 let antinode_2: Point;
 
-                // order of points matters (to me anyway), order by x-values
+                // order of points matters in my solution: order by x-values
                 // point_1 is on the left side and point_2 is on the right
-                if antenna[r].0 <= antenna[s].0 {
+                if antenna[r].x <= antenna[s].x {
                     point_1 = Point {
-                        x:  antenna[r].0,
-                        y:  antenna[r].1,
+                        x: antenna[r].x,
+                        y: antenna[r].y,
                     };
                     point_2 = Point {
-                        x: antenna[s].0,
-                        y: antenna[s].1
+                        x: antenna[s].x,
+                        y: antenna[s].y,
                     }
                 } else {
                     point_1 = Point {
-                        x:  antenna[s].0,
-                        y:  antenna[s].1,
+                        x: antenna[s].x,
+                        y: antenna[s].y,
                     };
                     point_2 = Point {
-                        x: antenna[r].0,
-                        y: antenna[r].1
+                        x: antenna[r].x,
+                        y: antenna[r].y,
                     }
                 }
 
-                let rise = point_2.y - point_1.y ; // y-axis
-                let run = point_2.x - point_1.x;  // x-axis
+                let rise = point_2.y - point_1.y; // y-axis
+                let run = point_2.x - point_1.x; // x-axis
                 let slope = slope(rise, run);
 
                 // dbg!((x1, y1, x2, y2, rise, run, slope));
@@ -143,7 +145,7 @@ fn main() {
                             // horizontal line
                             // left side antinode
                             antinode_1 = Point {
-                                x: point_1.x + run,
+                                x: point_1.x - run,
                                 y: point_1.y,
                             };
                             // right side antinode
@@ -151,7 +153,19 @@ fn main() {
                                 x: point_2.x + run,
                                 y: point_2.y,
                             };
-                        } else { // s != 0
+                        } else if s > 0.0 {
+                            // negative slope == line segment rises to the right
+                            antinode_1 = Point {
+                                x: point_1.x - run,
+                                y: point_1.y + rise,
+                            };
+                            // right side
+                            antinode_2 = Point {
+                                x: point_1.x + run,
+                                y: point_2.y - rise,
+                            };
+                        } else {
+                            // positive slope == line segment rises to the left
                             antinode_1 = Point {
                                 x: point_1.x - run,
                                 y: point_1.y - rise,
@@ -165,17 +179,29 @@ fn main() {
                     }
                     None => {
                         // Vertical line, slope is not defined.
-                        // horizontal line
-                        // left side antinode
-                        antinode_1 = Point {
-                            x: point_1.x,
-                            y: point_1.y + rise,
-                        };
-                        // right side antinode
-                        antinode_2 = Point {
-                            x: point_2.x,
-                            y: point_2.y + rise,
-                        };
+                        // need to look at y-values since x-values are same
+                       if point_1.y < point_2.y {
+                           // top antinode
+                           antinode_1 = Point {
+                               x: point_1.x,
+                               y: point_1.y - rise,
+                           };
+                           // bottom antinode
+                           antinode_2 = Point {
+                               x: point_2.x,
+                               y: point_2.y + rise,
+                           };
+                       } else {
+                           antinode_1 = Point {
+                               x: point_1.x,
+                               y: point_1.y + rise,
+                           };
+                           // bottom antinode
+                           antinode_2 = Point {
+                               x: point_2.x,
+                               y: point_2.y - rise,
+                           };
+                       }
                     }
                 }
 
@@ -225,10 +251,11 @@ fn slope(rise: i32, run: i32) -> Option<f32> {
 
 fn on_grid(p0: Point, nrows: i32, ncols: i32) -> bool {
     // returns true if point is within the grid, false otherwise
-    if (p0.x < 0 || p0.x >= ncols) || (p0.y < 0 || p0.y >= nrows) {
-        return false;
+    if p0.x < 0 || p0.x >= ncols || p0.y < 0 || p0.y >= nrows {
+        false
+    } else {
+        true
     }
-    true
 }
 
 fn print_grid(grid: &Vec<Vec<char>>, nrows: i32, ncols: i32) -> () {
@@ -239,7 +266,7 @@ fn print_grid(grid: &Vec<Vec<char>>, nrows: i32, ncols: i32) -> () {
         for j in 0..ncols {
             // columns
             print!(
-                "[{}] ({},{}) ",
+                "{} ({},{}) ",
                 grid[j as usize][i as usize], j as usize, i as usize
             );
         }
