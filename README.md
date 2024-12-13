@@ -104,4 +104,8 @@ End.  Current date and time (UTC): 2024-12-08 03:03:49
 
 #### Day 8
 - How to idiomatically &quot;upsert&quot; to a mut Rust HashMap  [Stackoverflow](https://stackoverflow.com/questions/33243784/append-to-vector-as-value-of-hashmap)
-- 
+- Use a HashSet to avoid duplicates
+```text
+Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  351
+Elapsed time part 1: 19.63µs
+```

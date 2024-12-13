@@ -4,7 +4,7 @@
 use advent_of_code_2024::read_puzzle_input;
 use chrono::Utc;
 use std::collections::hash_map::Entry;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::time::Instant;
 
 // Advent of Code 2024 Day 8
@@ -13,6 +13,8 @@ use std::time::Instant;
 
 // A struct with two fields
 #[derive(Debug, Clone, Copy)]
+#[derive(Eq)]
+#[derive(Hash)]
 struct Point {
     x: i32,
     y: i32,
@@ -94,7 +96,7 @@ fn main() {
 
     // loop and for each pair of antennas find slope, tangent or rise over run and figure out
     // where the antinodes must be ???
-    let mut antinodes = Vec::new();
+    let mut antinodes = HashSet::new();
 
     for antenna in antennas.values() {
         // need to find all pairs, not a sliding window!
@@ -194,18 +196,18 @@ fn main() {
                 }
 
                 if on_grid(antinode_1, nrows, ncols) {
-                    antinodes.push(antinode_1);
+                    antinodes.insert(antinode_1);
                     grid[antinode_1.x as usize][antinode_1.y as usize] = '#';
                 }
                 if on_grid(antinode_2, nrows, ncols) {
-                    antinodes.push(antinode_2);
+                    antinodes.insert(antinode_2);
                     grid[antinode_2.x as usize][antinode_2.y as usize] = '#';
                 }
             }
         }
     }
-    antinodes.sort_by(|a, b| a.x.cmp(&b.x));
-    antinodes.dedup();
+    // antinodes.sort_by(|a, b| a.x.cmp(&b.x));
+    // antinodes.dedup();
     // dbg!(&antinodes);
 
     // print_grid(&grid, nrows, ncols);
