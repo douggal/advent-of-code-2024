@@ -95,9 +95,8 @@ fn main() {
     // there are two antinodes, one on either side of them.
 
     // loop and for each pair of antennas find slope, tangent or rise over run and figure out
-    // where the antinodes must be ???
+    // where the antinodes are.
     let mut antinodes = HashSet::new();
-
     for antenna in antennas.values() {
         // need to find all pairs, not a sliding window!
         // no duplicate pairs, each combo only once!
@@ -214,6 +213,7 @@ fn main() {
 
     // 374 too high
     // 369 too high
+    // 351 wins
 
     let answer_p1 = antinodes.iter().count();
     println!("Day 08 Part 1.  How many unique locations within the bounds of the map contain an antinode?  {answer_p1}");
@@ -223,7 +223,7 @@ fn main() {
     // Part 2
 
     let answer_p2 = 0;
-    println!("Day 08 Part 2. ... {answer_p2}");
+    println!("Day 08 Part 2. How many unique locations within the bounds of the map contain an antinode? {answer_p2}");
     let elapsed = now.elapsed();
     println!("Elapsed time parts 1 and 2: {:.2?}", elapsed);
 

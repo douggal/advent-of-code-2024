@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader, Error};
 
-// Advent of Code 2024
-// Library and utility methods.
+/// Advent of Code 2024
+/// Library and utility methods.
 
-// Read file contents
+/// Read file contents
 pub fn read_contents_buffered(path: &str) -> Result<String, Error> {
     let mut file_txt = String::new();
     let readme = File::open(path)?;
@@ -19,8 +19,8 @@ pub fn read_contents_buffered(path: &str) -> Result<String, Error> {
     Ok(file_txt)
 }
 
-// Takes a filename and path and returns
-// the text file as a String with newline char separating each line.
+/// Takes a filename and path and returns
+/// the text file as a String with newline char separating each line.
 pub fn read_puzzle_input(path: &str) -> String {
     let input = match read_contents_buffered(path) {
         Ok(file_contents) => {
