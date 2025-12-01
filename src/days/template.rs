@@ -9,7 +9,7 @@ use std::time::Instant;
 // XX Dec 2024
 // https://adventofcode.com/2024
 
-fn main() {
+pub fn run() {
     println!("--- Advent of Code 2024 ---");
     println!("--- Day XX: ... ---\n");
 

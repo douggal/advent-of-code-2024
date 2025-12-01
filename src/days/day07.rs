@@ -10,7 +10,7 @@ use std::time::Instant;
 
 
 
-fn main() {
+pub fn run() {
     println!("--- Advent of Code 2024 ---");
     println!("--- Day 7: ---\n");
 
@@ -96,7 +96,7 @@ fn main() {
     println!("Elapsed Parts 1 and 2: {:.2?}", elapsed);
 
     let answer_p2 = count_calibration_eqs2.iter().sum::<i64>();
-    println!("Day 07 Part 2. {answer_p2}");
+    println!("Day 07 Part 2. {:?}", answer_p2);
 
     // End
     let current_datetime = Utc::now();
@@ -120,11 +120,9 @@ fn build2(result: i64, head: i32, tail: &[i32], operators: [&str; 3], results: &
         }
     }
     else {
-        crate::build2(add, tail[0], &tail[1..], operators, results, sum);
-        crate::build2(mul, tail[0], &tail[1..], operators, results, sum);
+        build2(add, tail[0], &tail[1..], operators, results, sum);
+        build2(mul, tail[0], &tail[1..], operators, results, sum);
     }
-
-    ()
 }
 
 fn build(result: i64, head: i32, tail: &[i32], operators: [char; 2], results: &mut Vec<i64>, sum: i64) {

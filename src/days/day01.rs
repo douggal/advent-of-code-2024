@@ -2,10 +2,9 @@ use std::collections::HashMap;
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
 
-fn main() {
+pub fn run() {
 
-    println!("--- Advent of Code 2024 ---");
-    println!("--- Day 1: Historian Hysteria ---\n");
+    println!("--- Advent of Code 2024 Day 1 ---");
 
     // Reading buffered file contents into a string line by line
     let filename = "./input/day01.txt";

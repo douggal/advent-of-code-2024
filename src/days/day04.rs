@@ -5,10 +5,9 @@ use regex::Regex;
 // 4 Dec 2024
 // https://adventofcode.com/2024
 
-fn main() {
+pub fn run() {
 
-    println!("--- Advent of Code 2024 ---");
-    println!("--- Day 4: Ceres Search ---\n");
+    println!("--- Advent of Code 2024 Day 4 ---");
 
     // Reading buffered file contents into a string line by line
     //let filename = "./input/day04.txt";
@@ -69,13 +68,13 @@ fn main() {
 
 
     let answer_p1 = 0;
-    println!("Day 04 Part 1.   {answer_p1}");
+    println!("Day 04 Part 1. {:?}",  answer_p1);
 
 
     // Part 2
 
     let answer_p2 = 0;
-    println!("Day 04 Part 2. ... {answer_p2}");
+    println!("Day 04 Part 2.   DNF {:?}",  answer_p2);
 
     // End
     let current_datetime = Utc::now();
