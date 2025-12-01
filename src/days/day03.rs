@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use advent_of_code_2024::read_contents_buffered;
 use chrono::Utc;
 use regex::{Captures, Regex};
@@ -7,8 +6,8 @@ use regex::{Captures, Regex};
 // 3 Dec 2024
 // https://adventofcode.com/2024
 
-fn main() {
-    println!("--- Advent of Code 2024 ---");
+pub fn run() {
+    println!("--- Advent of Code 2024 Day 3 ---");
 
     // Reading buffered file contents into a string line by line
     let filename = "./input/day03.txt";

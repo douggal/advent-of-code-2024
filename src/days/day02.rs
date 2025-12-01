@@ -5,7 +5,7 @@ use chrono::Utc;
 // 2 Dec 2024
 // https://adventofcode.com/2024
 
-fn main() {
+pub fn run() {
 
     println!("--- Advent of Code 2024 ---");
     println!("---- Day 2 ---\n");
@@ -77,7 +77,7 @@ fn main() {
     // Part 2
 
     // same as Part 1, but I'm allowed to drop 1 bad level from each report
-    let mut safes_p2 = Vec::<i32>::new();
+    let safes_p2 = Vec::<i32>::new();
     for line in input.lines() {
         let iter = line.split_whitespace();
         let xs = iter

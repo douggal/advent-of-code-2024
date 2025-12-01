@@ -19,8 +19,8 @@ fn print_grid(grid: &Vec<Vec<char>>, nrows: usize, ncols: usize)-> () {
 }
 
 
-fn main() {
-    println!("--- Advent of Code 2024 ---");
+pub fn run() {
+    println!("--- Advent of Code 2024 Day 6 ---");
 
     // Reading buffered file contents into a string line by line
     let filename = "./input/day06.txt";
